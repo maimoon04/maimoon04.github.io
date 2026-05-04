@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maimoon Ishtiaq — Unity Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #0f0f1a;
+  --bg3: #13131f;
+  --panel: #1a1a2e;
+  --border: #2a2a4a;
+  --accent: #00f5a0;
+  --accent2: #00c8ff;
+  --accent3: #ff6b35;
+  --warn: #ffd700;
+  --text: #e8e8f0;
+  --muted: #6b6b8a;
+  --pixel: 'Press Start 2P', monospace;
+  --mono: 'Share Tech Mono', monospace;
+  --body: 'Rajdhani', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── SCANLINE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── CUSTOM CURSOR ── */
+* { cursor: none !important; }
+#cursor {
+  width: 12px; height: 12px;
+  background: var(--accent);
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transition: transform 0.1s, background 0.2s;
+}
+#cursor.big { transform: translate(-50%, -50%) scale(2.5); background: var(--accent2); }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+.nav-logo span { color: var(--warn); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::before {
+  content: '> ';
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::before { opacity: 1; }
+
+.nav-status {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.3;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove { to { background-position: 40px 40px; } }
+
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,245,160,0.06) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+.press-start {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--warn);
+  letter-spacing: 3px;
+  animation: blink 1.2s step-end infinite;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-name {
+  font-family: var(--pixel);
+  font-size: clamp(18px, 4vw, 36px);
+  color: var(--accent);
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 30px rgba(0,245,160,0.4);
+  animation: fadeUp 0.8s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.hero-title {
+  font-family: var(--mono);
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--accent2);
+  letter-spacing: 4px;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+
+.hstat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent);
+  padding: 0.8rem 1.2rem;
+  min-width: 130px;
+  text-align: center;
+  position: relative;
+}
+.hstat::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; right: -1px;
+  width: 8px; height: 8px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+.hstat-val {
+  font-family: var(--pixel);
+  font-size: 16px;
+  color: var(--warn);
+  display: block;
+  margin-bottom: 4px;
+}
+.hstat-lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.8s 0.6s ease both;
+}
+
+.btn {
+  font-family: var(--pixel);
+  font-size: 8px;
+  padding: 14px 24px;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  position: relative;
+  display: inline-block;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.btn:hover { background: var(--accent); color: var(--bg); }
+.btn-secondary { border-color: var(--accent2); color: var(--accent2); }
+.btn-secondary:hover { background: var(--accent2); color: var(--bg); }
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  animation: bounce 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+/* ── SECTIONS ── */
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+.section-tag {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--accent3);
+  letter-spacing: 2px;
+}
+.section-title {
+  font-family: var(--pixel);
+  font-size: clamp(12px, 2.5vw, 18px);
+  color: var(--text);
+  line-height: 1.8;
+}
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+@media(max-width:700px){ .about-grid{grid-template-columns:1fr;} }
+
+.about-text {
+  font-family: var(--body);
+  font-size: 17px;
+  color: var(--text);
+  line-height: 1.8;
+}
+.about-text p { margin-bottom: 1rem; }
+.about-text strong { color: var(--accent); font-weight: 600; }
+
+.char-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  position: relative;
+}
+.char-card::before {
+  content: 'PLAYER 1';
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--warn);
+  position: absolute;
+  top: -10px;
+  left: 1rem;
+  background: var(--panel);
+  padding: 0 6px;
+}
+.char-avatar {
+  width: 80px; height: 80px;
+  background: var(--bg2);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--pixel);
+  font-size: 24px;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.char-name {
+  font-family: var(--pixel);
+  font-size: 10px;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.char-class {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent2);
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.stat-bar { margin-bottom: 10px; }
+.stat-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.stat-bar-track {
+  height: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.stat-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  animation: fillBar 1.5s ease both;
+}
+.stat-bar-fill.blue { background: var(--accent2); }
+.stat-bar-fill.orange { background: var(--accent3); }
+.stat-bar-fill.gold { background: var(--warn); }
+@keyframes fillBar { from{width:0} }
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.skill-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.skill-panel:hover { border-left-color: var(--accent2); transform: translateX(4px); }
+.skill-panel.orange { border-left-color: var(--accent3); }
+.skill-panel.orange:hover { border-left-color: var(--warn); }
+.skill-cat {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--warn);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 3px 8px;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.tag:hover { border-color: var(--accent); color: var(--accent); }
+.tag.hot { border-color: var(--accent3); color: var(--accent3); }
+
+/* ── PROJECTS / LEVELS ── */
+.levels-header {
+  font-family: var(--pixel);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.level-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.level-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.level-card.locked { opacity: 0.5; }
+.level-card.locked:hover { transform: none; border-color: var(--border); }
+
+.level-thumb {
+  height: 120px;
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.level-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.01) 10px, rgba(255,255,255,0.01) 20px);
+}
+.level-num {
+  position: absolute;
+  top: 8px; left: 10px;
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--warn);
+}
+.level-badge {
+  position: absolute;
+  top: 8px; right: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+}
+.level-badge.orange { background: var(--accent3); }
+.level-badge.blue { background: var(--accent2); }
+
+.level-body { padding: 1.2rem; }
+.level-title {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.8;
+}
+.level-studio {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent2);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.level-desc {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.level-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.lmeta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lmeta strong { color: var(--warn); }
+
+/* ── EXPERIENCE TIMELINE ── */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--border));
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-left: 1.5rem;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 6px;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  transform: rotate(45deg);
+}
+.tl-item.past::before { background: var(--muted); }
+.tl-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent3);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.tl-company {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--accent);
+  margin-bottom: 3px;
+  line-height: 1.8;
+}
+.tl-role {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent2);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.tl-bullets { list-style: none; }
+.tl-bullets li {
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--muted);
+  padding: 3px 0 3px 14px;
+  position: relative;
+  line-height: 1.6;
+}
+.tl-bullets li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 10px;
+}
+.tl-bullets li strong { color: var(--text); }
+
+/* ── CONTACT ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+@media(max-width:700px){.contact-grid{grid-template-columns:1fr;}}
+
+.contact-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 2rem;
+}
+.contact-panel h3 {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--warn);
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.contact-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,245,160,0.04); }
+.cl-icon {
+  width: 32px; height: 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.hire-panel {
+  background: var(--bg2);
+  border: 2px solid var(--accent);
+  padding: 2rem;
+  text-align: center;
+}
+.hire-panel h3 {
+  font-family: var(--pixel);
+  font-size: 10px;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+.hire-panel p {
+  font-family: var(--body);
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+.hire-email {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--warn);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+}
+.hire-email:hover { color: var(--accent); }
+
+.avail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 6px 14px;
+  letter-spacing: 1px;
+}
+.avail-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: blink 1s step-end infinite;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+footer span { color: var(--accent); }
+
+/* ── SECTION REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MI<span>.</span>EXE</div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#experience">XP LOG</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <div class="nav-status">
+    <span class="blink">█</span> ONLINE
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="press-start">▶ PRESS START ◀</div>
+
+  <h1 class="hero-name">MAIMOON ISHTIAQ</h1>
+  <div class="hero-title">UNITY DEVELOPER &nbsp;|&nbsp; GAME ENGINEER</div>
+
+  <div class="hero-stats">
+    <div class="hstat">
+      <span class="hstat-val">5+</span>
+      <span class="hstat-lbl">YRS EXPERIENCE</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-val">300M+</span>
+      <span class="hstat-lbl">TOTAL DOWNLOADS</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-val">7</span>
+      <span class="hstat-lbl">SHIPPED TITLES</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-val">4.6★</span>
+      <span class="hstat-lbl">AVG STORE RATING</span>
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a href="#projects" class="btn">▶ VIEW PROJECTS</a>
+    <a href="https://drive.google.com/file/d/1ZnxYamFoymFUWJ9kJKP5H7bHIgfa0BQB/view" target="_blank" class="btn btn-secondary">⬇ DOWNLOAD CV</a>
+  </div>
+
+  <div class="scroll-hint">▼ SCROLL TO CONTINUE ▼</div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-tag">// 001</span>
+    <h2 class="section-title">ABOUT THE PLAYER</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <strong>Unity Developer</strong> based in Lahore, Pakistan — currently working for <strong>Userwise</strong> on live mobile titles for <strong>PeopleFun</strong>, a TripleDot Games subsidiary.</p>
+      <p>My work spans from maintaining and extending <strong>10M+ download word-puzzle titles</strong> to contributing to viral hits like <strong>Scary Teacher 3D</strong> (300M+ global downloads) at GenITeam Solutions.</p>
+      <p>I work at the <strong>engine level</strong> in Cerberus X — PeopleFun's proprietary in-house technology — alongside a cross-timezone team between Pakistan and Germany. I leverage <strong>Cursor AI</strong> for workflow automation and AI-assisted development.</p>
+      <p>Specialties: multiplayer systems, ad mediation, live ops, IAP, performance optimisation, and scalable game architecture using SOLID principles.</p>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">MI</div>
+      <div class="char-name">MAIMOON ISHTIAQ</div>
+      <div class="char-class">CLASS: SENIOR UNITY DEV</div>
+      <div class="stat-bar">
+        <div class="stat-bar-label"><span>Unity / C#</span><span>95</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill" style="width:95%"></div></div>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-bar-label"><span>Game Architecture</span><span>90</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill blue" style="width:90%"></div></div>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-bar-label"><span>Multiplayer Systems</span><span>80</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill orange" style="width:80%"></div></div>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-bar-label"><span>Monetisation / Ads</span><span>88</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill gold" style="width:88%"></div></div>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-bar-label"><span>Performance Optimisation</span><span>85</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill" style="width:85%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-tag">// 002</span>
+    <h2 class="section-title">SKILL TREE</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-panel">
+      <div class="skill-cat">⚙ GAME ENGINES</div>
+      <div class="skill-tags">
+        <span class="tag hot">Unity3D</span>
+        <span class="tag hot">Cerberus X</span>
+        <span class="tag">C#</span>
+        <span class="tag">ECS/DOTS</span>
+        <span class="tag">AR (Vuforia)</span>
+      </div>
+    </div>
+    <div class="skill-panel">
+      <div class="skill-cat">🌐 MULTIPLAYER</div>
+      <div class="skill-tags">
+        <span class="tag hot">Photon PUN2</span>
+        <span class="tag hot">Nakama Cloud</span>
+        <span class="tag">Netcode for GO</span>
+        <span class="tag">Firebase RTDB</span>
+      </div>
+    </div>
+    <div class="skill-panel orange">
+      <div class="skill-cat">💰 MONETISATION</div>
+      <div class="skill-tags">
+        <span class="tag hot">AppLovin MaxSDK</span>
+        <span class="tag">AdMob</span>
+        <span class="tag">Unity IAP</span>
+        <span class="tag">Ads Mediation</span>
+        <span class="tag">Live Ops</span>
+      </div>
+    </div>
+    <div class="skill-panel orange">
+      <div class="skill-cat">🏗 ARCHITECTURE</div>
+      <div class="skill-tags">
+        <span class="tag hot">SOLID Principles</span>
+        <span class="tag">OOP</span>
+        <span class="tag">MVC</span>
+        <span class="tag">FSM</span>
+        <span class="tag">State Pattern</span>
+        <span class="tag">BTs</span>
+      </div>
+    </div>
+    <div class="skill-panel">
+      <div class="skill-cat">🤖 AI & TOOLING</div>
+      <div class="skill-tags">
+        <span class="tag hot">Cursor AI</span>
+        <span class="tag">AI Automation</span>
+        <span class="tag">Jenkins CI</span>
+        <span class="tag">Git / GitFlow</span>
+        <span class="tag">Plastic SCM</span>
+      </div>
+    </div>
+    <div class="skill-panel">
+      <div class="skill-cat">📊 ANALYTICS & DEBUG</div>
+      <div class="skill-tags">
+        <span class="tag">Firebase Analytics</span>
+        <span class="tag">BugSnag</span>
+        <span class="tag">Performance Profiling</span>
+        <span class="tag">ANR/Crash Reduction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-tag">// 003</span>
+    <h2 class="section-title">SELECT YOUR LEVEL</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="levels-header reveal">— SHIPPED TITLES —</div>
+  <div class="levels-grid reveal">
+
+    <div class="level-card">
+      <div class="level-thumb" style="background:linear-gradient(135deg,#0f1a2e,#1a2e1f);">
+        🔤
+        <span class="level-num">LVL 01</span>
+        <span class="level-badge">10M+ DL</span>
+      </div>
+      <div class="level-body">
+        <div class="level-title">WORD STACKS</div>
+        <div class="level-studio">PeopleFun / TripleDot · Cerberus X</div>
+        <div class="level-desc">Live word-puzzle title. Responsible for engine-level feature development, age-verification (COPPA/GDPR), native API integration, and ongoing maintenance.</div>
+        <div class="level-meta">
+          <span class="lmeta">⭐ <strong>4.6★</strong></span>
+          <span class="lmeta">📥 <strong>10M+</strong></span>
+          <span class="lmeta">🗓 <strong>2026–Now</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card">
+      <div class="level-thumb" style="background:linear-gradient(135deg,#1a0f2e,#2e1f0f);">
+        🎮
+        <span class="level-num">LVL 02</span>
+        <span class="level-badge blue">4.6★</span>
+      </div>
+      <div class="level-body">
+        <div class="level-title">WORD CHUMS</div>
+        <div class="level-studio">PeopleFun / TripleDot · Cerberus X</div>
+        <div class="level-desc">Multiplayer word board game. Maintenance, backend API integration, and feature shipping across Android and iOS platforms.</div>
+        <div class="level-meta">
+          <span class="lmeta">⭐ <strong>4.6★</strong></span>
+          <span class="lmeta">📥 <strong>1M+</strong></span>
+          <span class="lmeta">🗓 <strong>2026–Now</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card">
+      <div class="level-thumb" style="background:linear-gradient(135deg,#1a2e0f,#0f2e2a);">
+        🌸
+        <span class="level-num">LVL 03</span>
+        <span class="level-badge">LIVE</span>
+      </div>
+      <div class="level-body">
+        <div class="level-title">WORD FLOWERS & WORD VISTAS</div>
+        <div class="level-studio">PeopleFun / TripleDot · Cerberus X</div>
+        <div class="level-desc">Two live word-puzzle titles maintained simultaneously. Engine-level work, platform compliance, and cross-timezone delivery (Pakistan–Germany).</div>
+        <div class="level-meta">
+          <span class="lmeta">🌍 <strong>Global</strong></span>
+          <span class="lmeta">🗓 <strong>2026–Now</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card">
+      <div class="level-thumb" style="background:linear-gradient(135deg,#2e0f0f,#1a0f1a);">
+        👩‍🏫
+        <span class="level-num">LVL 04</span>
+        <span class="level-badge orange">300M+ DL</span>
+      </div>
+      <div class="level-body">
+        <div class="level-title">SCARY TEACHER 3D</div>
+        <div class="level-studio">GenITeam Solutions / ZNK Games</div>
+        <div class="level-desc">Contributed to one of Pakistan's most successful mobile titles globally. Built core game systems, booster mechanics, and IAP modules at massive scale.</div>
+        <div class="level-meta">
+          <span class="lmeta">📥 <strong>300M+</strong></span>
+          <span class="lmeta">🌍 <strong>Global viral</strong></span>
+          <span class="lmeta">🗓 <strong>2021–22</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card">
+      <div class="level-thumb" style="background:linear-gradient(135deg,#0f1a2e,#2e1a0f);">
+        🔫
+        <span class="level-num">LVL 05</span>
+        <span class="level-badge blue">AI SYS</span>
+      </div>
+      <div class="level-body">
+        <div class="level-title">ANTI-TERRORISM COMMANDO</div>
+        <div class="level-studio">Hazel Mobile · Unity3D</div>
+        <div class="level-desc">Engineered custom shooting mechanics and vehicle AI systems from scratch. FSM-driven enemy behaviour, character controllers, and optimised 60fps gameplay.</div>
+        <div class="level-meta">
+          <span class="lmeta">🤖 <strong>FSM AI</strong></span>
+          <span class="lmeta">🎯 <strong>60fps</strong></span>
+          <span class="lmeta">🗓 <strong>2023–25</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card">
+      <div class="level-thumb" style="background:linear-gradient(135deg,#1a2e2e,#0f0f1a);">
+        🥷
+        <span class="level-num">LVL 06</span>
+        <span class="level-badge">0.5% CRASH</span>
+      </div>
+      <div class="level-body">
+        <div class="level-title">SCARY ROBBER & NICK AND TANI</div>
+        <div class="level-studio">GenITeam Solutions / ZNK Games</div>
+        <div class="level-desc">Full game systems engineering with crash rates held below 0.5%. Mystery Box modules, booster systems, IAP integration, and multiplayer via Photon PUN2.</div>
+        <div class="level-meta">
+          <span class="lmeta">💥 <strong>&lt;0.5% crash</strong></span>
+          <span class="lmeta">🎮 <strong>Multiplayer</strong></span>
+          <span class="lmeta">🗓 <strong>2021–22</strong></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-tag">// 004</span>
+    <h2 class="section-title">XP LOG</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline reveal">
+
+    <div class="tl-item">
+      <div class="tl-date">01/2026 — PRESENT</div>
+      <div class="tl-company">USERWISE — REMOTE (PK/DE)</div>
+      <div class="tl-role">Cerberus X / Unity Developer · Client: PeopleFun (TripleDot)</div>
+      <ul class="tl-bullets">
+        <li>Maintaining <strong>4 live titles</strong> — Word Stacks (10M+ DL, 4.6★), Word Chums, Word Flowers, Word Vistas</li>
+        <li>Engine-level development inside <strong>Cerberus X</strong>, PeopleFun's proprietary technology</li>
+        <li>Shipped <strong>age-verification system</strong> (COPPA/GDPR) across multiple titles</li>
+        <li>Cross-timezone agile collaboration with team in <strong>Germany</strong></li>
+        <li>AI-assisted workflows using <strong>Cursor AI</strong> for automation and delivery speed</li>
+      </ul>
+    </div>
+
+    <div class="tl-item past">
+      <div class="tl-date">04/2023 — 12/2025</div>
+      <div class="tl-company">HAZEL MOBILE — LAHORE</div>
+      <div class="tl-role">Senior Unity Developer</div>
+      <ul class="tl-bullets">
+        <li>Built swipe input controller sustaining <strong>60fps on low-end Android</strong></li>
+        <li>Integrated <strong>AppLovin MaxSDK</strong> mediation — optimised eCPM and fill rates</li>
+        <li>Built <strong>Nakama multiplayer</strong> backend for real-time matchmaking and auth</li>
+        <li>Designed reward systems and progression mechanics supporting live-ops cycles</li>
+      </ul>
+    </div>
+
+    <div class="tl-item past">
+      <div class="tl-date">03/2021 — 10/2022</div>
+      <div class="tl-company">GENITEAM SOLUTIONS — LAHORE</div>
+      <div class="tl-role">Unity Developer</div>
+      <ul class="tl-bullets">
+        <li>Contributed to <strong>Scary Teacher 3D — 300M+ downloads</strong> globally</li>
+        <li>Maintained crash rates <strong>below 0.5%</strong> across Scary Robber and Nick and Tani</li>
+        <li>Led sprints, mentored juniors, managed <strong>App Store & Google Play</strong> releases</li>
+        <li>FSM AI, character controllers, custom Unity editor tools</li>
+      </ul>
+    </div>
+
+    <div class="tl-item past">
+      <div class="tl-date">10/2022 — 03/2023</div>
+      <div class="tl-company">SABLO STUDIO — LAHORE</div>
+      <div class="tl-role">Unity Developer</div>
+      <ul class="tl-bullets">
+        <li>Built reusable <strong>UI Tool Framework</strong> and custom Ads Mediation package</li>
+        <li>Led code reviews, R&D on Unity plugins, resolved critical performance bottlenecks</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-tag">// 005</span>
+    <h2 class="section-title">INSERT COIN TO CONNECT</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-panel">
+      <h3>FIND ME ON</h3>
+      <a href="https://www.linkedin.com/in/maimoon-ishtiaq/" target="_blank" class="contact-link">
+        <div class="cl-icon">in</div> LinkedIn — Maimoon Ishtiaq
+      </a>
+      <a href="https://github.com/maimoon04" target="_blank" class="contact-link">
+        <div class="cl-icon">gh</div> GitHub — maimoon04
+      </a>
+      <a href="https://www.upwork.com/freelancers/maimoonishtiaq04" target="_blank" class="contact-link">
+        <div class="cl-icon">up</div> Upwork — maimoonishtiaq04
+      </a>
+      <a href="https://drive.google.com/file/d/1ZnxYamFoymFUWJ9kJKP5H7bHIgfa0BQB/view" target="_blank" class="contact-link">
+        <div class="cl-icon">cv</div> Download CV (PDF)
+      </a>
+    </div>
+    <div class="hire-panel">
+      <h3>READY TO HIRE?</h3>
+      <p>Open to senior Unity Developer roles, game engineering contracts, and freelance projects. Experienced in live mobile titles, multiplayer systems, and cross-timezone teams.</p>
+      <a href="mailto:moonishtiaq5@gmail.com" class="hire-email">moonishtiaq5@gmail.com</a>
+      <div class="avail-badge">
+        <div class="avail-dot"></div>
+        AVAILABLE FOR OPPORTUNITIES
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>MAIMOON ISHTIAQ &nbsp;·&nbsp; <span>UNITY DEVELOPER</span> &nbsp;·&nbsp; LAHORE, PAKISTAN</p>
+  <p style="margin-top:8px">© 2026 &nbsp;·&nbsp; <span>moonishtiaq5@gmail.com</span></p>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const typeEl = document.querySelector('.hero-title');
+const text = typeEl.textContent;
+typeEl.textContent = '';
+let i = 0;
+const type = () => {
+  if(i < text.length) { typeEl.textContent += text[i++]; setTimeout(type, 60); }
+};
+setTimeout(type, 900);
+</script>
+</body>
+</html>
