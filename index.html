@@ -3,7 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maimoon Ishtiaq — Unity Developer</title>
+<title>Maimoon Ishtiaq — Unity Developer | 300M+ Downloads Shipped</title>
+<meta name="description" content="Unity Developer in Lahore, Pakistan with 5+ years shipping live mobile titles. Currently building word-puzzle games in Cerberus X for PeopleFun (TripleDot). Previously contributed to Scary Teacher 3D — 300M+ downloads.">
+<meta name="author" content="Maimoon Ishtiaq">
+<link rel="canonical" href="https://maimoon04.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://maimoon04.github.io/">
+<meta property="og:title" content="Maimoon Ishtiaq — Unity Developer | 300M+ Downloads Shipped">
+<meta property="og:description" content="5+ years shipping live mobile titles. Engine-level development in Cerberus X for PeopleFun (TripleDot). Contributed to Scary Teacher 3D — 300M+ downloads.">
+<meta property="og:image" content="https://maimoon04.github.io/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Maimoon Ishtiaq">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Maimoon Ishtiaq — Unity Developer | 300M+ Downloads Shipped">
+<meta name="twitter:description" content="5+ years shipping live mobile titles. Engine-level development in Cerberus X for PeopleFun (TripleDot). Contributed to Scary Teacher 3D — 300M+ downloads.">
+<meta name="twitter:image" content="https://maimoon04.github.io/img/og-image.png">
+
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/favicon.png">
+<meta name="theme-color" content="#0a0a0f">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -261,6 +285,22 @@ nav {
 .btn-secondary { border-color: var(--accent2); color: var(--accent2); }
 .btn-secondary:hover { background: var(--accent2); color: var(--bg); }
 
+.now-playing {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.8s 0.3s ease both;
+  border: 1px solid var(--border);
+  padding: 7px 16px;
+  background: rgba(26,26,46,0.5);
+}
+.now-playing b { color: var(--accent); font-weight: 400; }
+.now-playing .np-tag { color: var(--warn); letter-spacing: 2px; }
+
 .scroll-hint {
   position: absolute;
   bottom: 2rem;
@@ -452,17 +492,51 @@ section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
 .level-card.locked { opacity: 0.5; }
 .level-card.locked:hover { transform: none; border-color: var(--border); }
 
+a.level-card { text-decoration: none; color: inherit; display: block; }
+.level-cta {
+  margin-top: 1rem;
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.level-card:hover .level-cta { color: var(--warn); }
+.level-store-links { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+.store-link {
+  font-family: var(--pixel);
+  font-size: 7px;
+  padding: 8px 12px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+.store-link:hover { background: var(--accent); color: var(--bg); }
+
 .level-thumb {
-  height: 120px;
+  height: 150px;
   background: var(--bg2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
   border-bottom: 1px solid var(--border);
   position: relative;
   overflow: hidden;
 }
+.level-thumb img {
+  width: 78px;
+  height: 78px;
+  border: 2px solid var(--border);
+  image-rendering: auto;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s;
+}
+.level-thumb img + img { margin-left: -14px; }
+.level-card:hover .level-thumb img { transform: scale(1.06); }
+.level-card:hover .level-thumb img + img { transform: scale(1.06) translateX(10px); }
 .level-thumb::after {
   content: '';
   position: absolute;
@@ -510,6 +584,22 @@ section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
   color: var(--muted);
   line-height: 1.7;
   margin-bottom: 1rem;
+}
+.level-role {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  background: var(--bg);
+  border-left: 2px solid var(--accent3);
+  padding: 7px 10px;
+  margin-bottom: 1rem;
+  line-height: 1.55;
+  letter-spacing: 0.3px;
+}
+.level-role b {
+  color: var(--accent3);
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 .level-meta {
   display: flex;
@@ -686,6 +776,100 @@ section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
   animation: blink 1s step-end infinite;
 }
 
+/* ── CONTACT FORM ── */
+.contact-form { display: flex; flex-direction: column; gap: 10px; margin-top: 1.2rem; }
+.contact-form input, .contact-form textarea {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  letter-spacing: 0.5px;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--muted); }
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); }
+.contact-form textarea { resize: vertical; min-height: 92px; }
+.form-btn {
+  font-family: var(--pixel);
+  font-size: 8px;
+  padding: 13px 20px;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+.form-btn:hover:not(:disabled) { background: var(--accent); color: var(--bg); }
+.form-btn:disabled { opacity: 0.5; border-color: var(--muted); color: var(--muted); }
+.form-status {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  min-height: 18px;
+}
+.form-status.ok { color: var(--accent); }
+.form-status.err { color: var(--accent3); }
+
+/* ── EDUCATION / LANGUAGES ── */
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media(max-width:700px){ .edu-grid{grid-template-columns:1fr;} }
+
+.edu-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent2);
+  padding: 1.2rem 1.5rem;
+}
+.edu-card.orange { border-left-color: var(--accent3); }
+.edu-cat {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--warn);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.edu-degree {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.edu-school {
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--text);
+}
+.edu-years {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+.lang-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.5px;
+}
+.lang-row:last-child { border-bottom: none; }
+.lang-level { color: var(--accent2); font-size: 11px; letter-spacing: 1px; }
+
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--border);
@@ -721,6 +905,7 @@ footer span { color: var(--accent); }
     <li><a href="#skills">SKILLS</a></li>
     <li><a href="#projects">PROJECTS</a></li>
     <li><a href="#experience">XP LOG</a></li>
+    <li><a href="#education">PROFILE</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
   <div class="nav-status">
@@ -737,6 +922,10 @@ footer span { color: var(--accent); }
 
   <h1 class="hero-name">MAIMOON ISHTIAQ</h1>
   <div class="hero-title">UNITY DEVELOPER &nbsp;|&nbsp; GAME ENGINEER</div>
+
+  <div class="now-playing">
+    <span class="np-tag">NOW PLAYING</span> &nbsp;·&nbsp; Building live word-puzzle titles in <b>Cerberus X</b> for <b>PeopleFun</b> (TripleDot Games)
+  </div>
 
   <div class="hero-stats">
     <div class="hstat">
@@ -887,109 +1076,129 @@ footer span { color: var(--accent); }
   <div class="levels-header reveal">— SHIPPED TITLES —</div>
   <div class="levels-grid reveal">
 
-    <div class="level-card">
+    <a class="level-card" href="https://play.google.com/store/apps/details?id=com.peoplefun.wordstacks" target="_blank" rel="noopener">
       <div class="level-thumb" style="background:linear-gradient(135deg,#0f1a2e,#1a2e1f);">
-        🔤
+        <img src="img/word-stacks.png" alt="Word Stacks game icon" loading="lazy" width="78" height="78">
         <span class="level-num">LVL 01</span>
         <span class="level-badge">10M+ DL</span>
       </div>
       <div class="level-body">
         <div class="level-title">WORD STACKS</div>
         <div class="level-studio">PeopleFun / TripleDot · Cerberus X</div>
-        <div class="level-desc">Live word-puzzle title. Responsible for engine-level feature development, age-verification (COPPA/GDPR), native API integration, and ongoing maintenance.</div>
+        <div class="level-desc">Live word-puzzle title with 10M+ downloads, maintained and extended while running in production.</div>
+        <div class="level-role"><b>MY ROLE:</b> Engine-level feature development in Cerberus X. Shipped the COPPA/GDPR age-verification flow, integrated native platform APIs, and handle ongoing live maintenance with a cross-timezone team.</div>
         <div class="level-meta">
           <span class="lmeta">⭐ <strong>4.6★</strong></span>
           <span class="lmeta">📥 <strong>10M+</strong></span>
           <span class="lmeta">🗓 <strong>2026–Now</strong></span>
         </div>
+        <div class="level-cta">▶ VIEW ON PLAY STORE ↗</div>
       </div>
-    </div>
+    </a>
 
-    <div class="level-card">
+    <a class="level-card" href="https://play.google.com/store/apps/details?id=com.peoplefun.wordchums" target="_blank" rel="noopener">
       <div class="level-thumb" style="background:linear-gradient(135deg,#1a0f2e,#2e1f0f);">
-        🎮
+        <img src="img/word-chums.png" alt="Word Chums game icon" loading="lazy" width="78" height="78">
         <span class="level-num">LVL 02</span>
         <span class="level-badge blue">4.6★</span>
       </div>
       <div class="level-body">
         <div class="level-title">WORD CHUMS</div>
         <div class="level-studio">PeopleFun / TripleDot · Cerberus X</div>
-        <div class="level-desc">Multiplayer word board game. Maintenance, backend API integration, and feature shipping across Android and iOS platforms.</div>
+        <div class="level-desc">Long-running multiplayer word board game with turn-based matches and team play.</div>
+        <div class="level-role"><b>MY ROLE:</b> Backend API integration and client-side feature work in Cerberus X. Ship and verify releases across both Android and iOS, plus production bug fixing on a live player base.</div>
         <div class="level-meta">
           <span class="lmeta">⭐ <strong>4.6★</strong></span>
           <span class="lmeta">📥 <strong>1M+</strong></span>
           <span class="lmeta">🗓 <strong>2026–Now</strong></span>
         </div>
+        <div class="level-cta">▶ VIEW ON PLAY STORE ↗</div>
       </div>
-    </div>
+    </a>
 
     <div class="level-card">
       <div class="level-thumb" style="background:linear-gradient(135deg,#1a2e0f,#0f2e2a);">
-        🌸
+        <img src="img/word-flowers.png" alt="Word Flowers game icon" loading="lazy" width="78" height="78">
+        <img src="img/word-vistas.png" alt="Word Vistas game icon" loading="lazy" width="78" height="78">
         <span class="level-num">LVL 03</span>
         <span class="level-badge">LIVE</span>
       </div>
       <div class="level-body">
         <div class="level-title">WORD FLOWERS & WORD VISTAS</div>
         <div class="level-studio">PeopleFun / TripleDot · Cerberus X</div>
-        <div class="level-desc">Two live word-puzzle titles maintained simultaneously. Engine-level work, platform compliance, and cross-timezone delivery (Pakistan–Germany).</div>
+        <div class="level-desc">Two live word-puzzle titles from the Wordscapes family, maintained in parallel alongside the two above.</div>
+        <div class="level-role"><b>MY ROLE:</b> Engine-level maintenance across both titles at once — platform compliance updates, store-release readiness, and feature parity, coordinating daily with the team in Germany.</div>
         <div class="level-meta">
           <span class="lmeta">🌍 <strong>Global</strong></span>
           <span class="lmeta">🗓 <strong>2026–Now</strong></span>
         </div>
+        <div class="level-store-links">
+          <a href="https://play.google.com/store/apps/details?id=com.peoplefun.wordflowers" target="_blank" rel="noopener" class="store-link">▶ WORD FLOWERS ↗</a>
+          <a href="https://play.google.com/store/apps/details?id=com.peoplefun.wordvistas" target="_blank" rel="noopener" class="store-link">▶ WORD VISTAS ↗</a>
+        </div>
       </div>
     </div>
 
-    <div class="level-card">
+    <a class="level-card" href="https://play.google.com/store/apps/details?id=com.zakg.scaryteacher.hellgame" target="_blank" rel="noopener">
       <div class="level-thumb" style="background:linear-gradient(135deg,#2e0f0f,#1a0f1a);">
-        👩‍🏫
+        <img src="img/scary-teacher.png" alt="Scary Teacher 3D game icon" loading="lazy" width="78" height="78">
         <span class="level-num">LVL 04</span>
         <span class="level-badge orange">300M+ DL</span>
       </div>
       <div class="level-body">
         <div class="level-title">SCARY TEACHER 3D</div>
-        <div class="level-studio">GenITeam Solutions / ZNK Games</div>
-        <div class="level-desc">Contributed to one of Pakistan's most successful mobile titles globally. Built core game systems, booster mechanics, and IAP modules at massive scale.</div>
+        <div class="level-studio">GenITeam Solutions / ZNK Games · Unity3D</div>
+        <div class="level-desc">One of Pakistan's most successful mobile titles globally, with 300M+ downloads worldwide.</div>
+        <div class="level-role"><b>MY ROLE:</b> Gameplay programmer on the live team. Built core game systems, booster mechanics, and IAP modules that had to hold up at hundreds of millions of installs, plus custom Unity editor tools for the content pipeline.</div>
         <div class="level-meta">
           <span class="lmeta">📥 <strong>300M+</strong></span>
           <span class="lmeta">🌍 <strong>Global viral</strong></span>
           <span class="lmeta">🗓 <strong>2021–22</strong></span>
         </div>
+        <div class="level-cta">▶ VIEW ON PLAY STORE ↗</div>
       </div>
-    </div>
+    </a>
 
-    <div class="level-card">
+    <a class="level-card" href="https://play.google.com/store/apps/details?id=com.sgs.antiterrorism.counterattack.commandomission" target="_blank" rel="noopener">
       <div class="level-thumb" style="background:linear-gradient(135deg,#0f1a2e,#2e1a0f);">
-        🔫
+        <img src="img/anti-terrorism.png" alt="Anti-Terrorism Commando game icon" loading="lazy" width="78" height="78">
         <span class="level-num">LVL 05</span>
         <span class="level-badge blue">AI SYS</span>
       </div>
       <div class="level-body">
         <div class="level-title">ANTI-TERRORISM COMMANDO</div>
         <div class="level-studio">Hazel Mobile · Unity3D</div>
-        <div class="level-desc">Engineered custom shooting mechanics and vehicle AI systems from scratch. FSM-driven enemy behaviour, character controllers, and optimised 60fps gameplay.</div>
+        <div class="level-desc">Offline FPS commando shooter with mission-based combat across multiple environments.</div>
+        <div class="level-role"><b>MY ROLE:</b> Built the shooting mechanics, vehicle AI, and FSM-driven enemy behaviour from scratch, along with the character controllers. Owned the optimisation pass that holds 60fps on low-end Android.</div>
         <div class="level-meta">
           <span class="lmeta">🤖 <strong>FSM AI</strong></span>
           <span class="lmeta">🎯 <strong>60fps</strong></span>
           <span class="lmeta">🗓 <strong>2023–25</strong></span>
         </div>
+        <div class="level-cta">▶ VIEW ON PLAY STORE ↗</div>
       </div>
-    </div>
+    </a>
 
     <div class="level-card">
       <div class="level-thumb" style="background:linear-gradient(135deg,#1a2e2e,#0f0f1a);">
-        🥷
+        <img src="img/scary-robber.png" alt="Scary Robber game icon" loading="lazy" width="78" height="78">
+        <img src="img/nick-tani.png" alt="Nick and Tani game icon" loading="lazy" width="78" height="78">
         <span class="level-num">LVL 06</span>
-        <span class="level-badge">0.5% CRASH</span>
+        <span class="level-badge">&lt;0.5% CRASH</span>
       </div>
       <div class="level-body">
         <div class="level-title">SCARY ROBBER & NICK AND TANI</div>
-        <div class="level-studio">GenITeam Solutions / ZNK Games</div>
-        <div class="level-desc">Full game systems engineering with crash rates held below 0.5%. Mystery Box modules, booster systems, IAP integration, and multiplayer via Photon PUN2.</div>
+        <div class="level-studio">GenITeam Solutions / ZNK Games · Unity3D</div>
+        <div class="level-desc">Two titles from the Scary Teacher universe, both shipped and maintained live.</div>
+        <div class="level-role"><b>MY ROLE:</b> Full game systems engineering — Mystery Box modules, booster systems, and IAP integration, with multiplayer built on Photon PUN2. Drove crash rates below 0.5% and mentored juniors on the team.</div>
         <div class="level-meta">
           <span class="lmeta">💥 <strong>&lt;0.5% crash</strong></span>
           <span class="lmeta">🎮 <strong>Multiplayer</strong></span>
           <span class="lmeta">🗓 <strong>2021–22</strong></span>
+        </div>
+        <div class="level-store-links">
+          <a href="https://play.google.com/store/apps/details?id=com.zatg.scaryrobber.boylife" target="_blank" rel="noopener" class="store-link">▶ SCARY ROBBER ↗</a>
+          <a href="https://play.google.com/store/apps/details?id=com.zatg.nick.tani.lovepuzzle" target="_blank" rel="noopener" class="store-link">▶ NICK &amp; TANI ↗</a>
         </div>
       </div>
     </div>
@@ -1056,10 +1265,33 @@ footer span { color: var(--accent); }
   </div>
 </section>
 
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-tag">// 005</span>
+    <h2 class="section-title">PLAYER PROFILE</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-cat">🎓 EDUCATION</div>
+      <div class="edu-degree">BS COMPUTER SCIENCE</div>
+      <div class="edu-school">University of Central Punjab — Lahore, Pakistan</div>
+      <div class="edu-years">2017 — 2021</div>
+    </div>
+    <div class="edu-card orange">
+      <div class="edu-cat">🗣 LANGUAGES</div>
+      <div class="lang-row"><span>English</span><span class="lang-level">PROFESSIONAL</span></div>
+      <div class="lang-row"><span>Urdu</span><span class="lang-level">NATIVE</span></div>
+      <div class="lang-row"><span>Punjabi</span><span class="lang-level">NATIVE</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
-    <span class="section-tag">// 005</span>
+    <span class="section-tag">// 006</span>
     <h2 class="section-title">INSERT COIN TO CONNECT</h2>
     <div class="section-line"></div>
   </div>
@@ -1087,6 +1319,15 @@ footer span { color: var(--accent); }
         <div class="avail-dot"></div>
         AVAILABLE FOR OPPORTUNITIES
       </div>
+
+      <form class="contact-form" id="contactForm">
+        <input type="text" name="name" placeholder="YOUR NAME" required minlength="2" autocomplete="name">
+        <input type="email" name="email" placeholder="YOUR EMAIL" required autocomplete="email">
+        <textarea name="message" placeholder="YOUR MESSAGE" required minlength="10"></textarea>
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="form-btn" id="formBtn">▶ SEND MESSAGE</button>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+      </form>
     </div>
   </div>
 </section>
@@ -1102,7 +1343,7 @@ document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
-document.querySelectorAll('a, button').forEach(el => {
+document.querySelectorAll('a, button, input, textarea').forEach(el => {
   el.addEventListener('mouseenter', () => cursor.classList.add('big'));
   el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
 });
@@ -1111,6 +1352,34 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const form = document.getElementById('contactForm');
+const formBtn = document.getElementById('formBtn');
+const formStatus = document.getElementById('formStatus');
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  formBtn.disabled = true;
+  formBtn.textContent = '▶ SENDING...';
+  formStatus.textContent = '';
+  formStatus.className = 'form-status';
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/moonishtiaq5@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    });
+    if(!res.ok) throw new Error('Request failed');
+    formStatus.textContent = '✓ MESSAGE SENT — I\'ll get back to you soon.';
+    formStatus.className = 'form-status ok';
+    form.reset();
+  } catch {
+    formStatus.innerHTML = '✕ SEND FAILED — email <a href="mailto:moonishtiaq5@gmail.com" style="color:inherit">moonishtiaq5@gmail.com</a> directly.';
+    formStatus.className = 'form-status err';
+  } finally {
+    formBtn.disabled = false;
+    formBtn.textContent = '▶ SEND MESSAGE';
+  }
+});
 
 const typeEl = document.querySelector('.hero-title');
 const text = typeEl.textContent;
